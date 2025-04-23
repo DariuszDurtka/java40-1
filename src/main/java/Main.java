@@ -13,7 +13,7 @@ class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
-      s.addStudent(new Student("Krzysztof", 20));
+      s.addStudent(new Student("Krzysztof", 30));
       s.addStudent(new Student("Janusz", 40));
 
       var students = s.getStudents();
