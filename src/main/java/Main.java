@@ -1,27 +1,39 @@
-/*
-Kod bazowy programu Commit4_0: 
-• Program dodaje do prostej bazy danych (pliku db.txt) dane odnośnie Studentów.
-• Studenci dodawani są w klasie Main.
-• Wszyscy studenci są wypisywani na końcu klasy Main.
-• Klasa Service obsługuje odczyt i zapis do pliku bazy danych.
-• Klasa Student reprezentuje pojedynczego studenta (Imię, Wiek).
-*/
-
 import java.io.IOException;
+import java.util.Scanner;
 
 class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
-      s.addStudent(new Student("Krzysztof", 30));
-      s.addStudent(new Student("Janusz", 40));
+      Scanner scanner = new Scanner(System.in);
 
+      System.out.println("Dodaj nowego studenta. Wprowadź 'exit', aby zakończyć.");
+      while (true) {
+        System.out.print("Imię: ");
+        String name = scanner.nextLine();
+        if ("exit".equalsIgnoreCase(name)) {
+          break;
+        }
+
+        System.out.print("Wiek: ");
+        int age;
+        try {
+          age = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+          System.out.println("Wiek musi być liczbą. Spróbuj ponownie.");
+          continue;
+        }
+
+        s.addStudent(new Student(name, age));
+      }
+
+      System.out.println("\nLista studentów:");
       var students = s.getStudents();
-      for(Student current : students) {
+      for (Student current : students) {
         System.out.println(current.ToString());
       }
     } catch (IOException e) {
-
+      System.out.println("Wystąpił błąd wejścia/wyjścia: " + e.getMessage());
     }
   }
 }

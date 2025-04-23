@@ -1,2 +1,6 @@
 Krzysztof 20
 Janusz 40
+DAriusz 12
+DAriusz 74
+Janek 213
+karol 12
