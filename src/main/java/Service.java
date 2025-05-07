@@ -39,4 +39,31 @@ public class Service {
     }
     return result;
   }
+
+  // Metoda usuwająca studenta (wszystkie wystąpienia) po imieniu i nazwisku
+  public boolean removeStudentByNameAndLastName(String name, String lastName) throws IOException {
+    Collection<Student> students = getStudents();
+    boolean removed = false;
+    Collection<Student> newList = new ArrayList<>();
+
+    for (Student st : students) {
+      // Porównujemy ignorując wielkość liter
+      if (st.getName().equalsIgnoreCase(name) && st.getLastName().equalsIgnoreCase(lastName)) {
+        removed = true;
+        // nie dodajemy tego studenta do nowej listy
+      } else {
+        newList.add(st);
+      }
+    }
+
+    // Nadpisz plik nową listą studentów
+    BufferedWriter bw = new BufferedWriter(new FileWriter("db.txt", false));
+    for (Student st : newList) {
+      bw.write(st.toString());
+      bw.newLine();
+    }
+    bw.close();
+
+    return removed;
+  }
 }
