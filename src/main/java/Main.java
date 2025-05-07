@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Scanner;
 
 class Main {
@@ -12,9 +13,16 @@ class Main {
         System.out.println("\nWybierz opcję:");
         System.out.println("1 - Dodaj studenta");
         System.out.println("2 - Wyświetl wszystkich studentów");
-        System.out.println("3 - Zakończ program");
+        System.out.println("3 - Znajdź studentów po imieniu");
+        System.out.println("4 - Zakończ program");
         System.out.print("Twój wybór: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice;
+        try {
+          choice = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+          System.out.println("Nieprawidłowy wybór!");
+          continue;
+        }
 
         switch (choice) {
           case 1:
@@ -32,7 +40,7 @@ class Main {
                 age = Integer.parseInt(scanner.nextLine());
                 validAge = true;
               } catch (NumberFormatException e) {
-                System.out.println("Wiek musi być liczbą. Spróbuj ponownie.");
+                System.out.println("Wiek musi być liczbą. Spróbuj jeszcze raz.");
               }
             }
 
@@ -41,38 +49,52 @@ class Main {
             while (!validDate) {
               System.out.print("Podaj datę urodzenia (DD-MM-YYYY): ");
               birthDate = scanner.nextLine();
-              try {
-                String[] dateParts = birthDate.split("-");
-                if (dateParts.length == 3) {
-                  int year = Integer.parseInt(dateParts[2]);
+              String[] parts = birthDate.split("-");
+              if (parts.length == 3) {
+                try {
+                  int year = Integer.parseInt(parts[2]);
                   if (year >= 1900 && year <= 2025) {
                     validDate = true;
                   } else {
                     System.out.println("Rok musi być w przedziale 1900-2025. Spróbuj ponownie.");
                   }
-                } else {
+                } catch (NumberFormatException e) {
                   System.out.println("Błędny format daty. Spróbuj ponownie.");
                 }
-              } catch (NumberFormatException e) {
-                System.out.println("Błędny format daty. Spróbuj ponownie.");
+              } else {
+                System.out.println("Błędny format daty. Użyj formatu DD-MM-YYYY.");
               }
             }
 
             s.addStudent(new Student(name, lastName, age, birthDate));
-            System.out.println(" Dodano studenta.");
+            System.out.println("Dodano studenta.");
             break;
 
           case 2:
-            var students = s.getStudents();
-            System.out.println(" Lista studentów:");
-            for (Student current : students) {
-              System.out.println(current.toString());
+            Collection<Student> students = s.getStudents();
+            System.out.println("Lista studentów:");
+            for (Student st : students) {
+              System.out.println(st);
             }
             break;
 
           case 3:
+            System.out.print("Podaj imię studenta do wyszukania: ");
+            String searchName = scanner.nextLine();
+            Collection<Student> foundStudents = s.findStudentsByName(searchName);
+            if (!foundStudents.isEmpty()) {
+              System.out.println("Znaleziono studentów:");
+              for (Student st : foundStudents) {
+                System.out.println(st);
+              }
+            } else {
+              System.out.println("Nie znaleziono studenta o imieniu: " + searchName);
+            }
+            break;
+
+          case 4:
             running = false;
-            System.out.println(" Zamykam program.");
+            System.out.println("Zamykam program.");
             break;
 
           default:
@@ -80,11 +102,9 @@ class Main {
             break;
         }
       }
-
       scanner.close();
-
     } catch (IOException e) {
-      System.out.println(" Wystąpił błąd podczas obsługi pliku.");
+      System.out.println("Wystąpił błąd podczas obsługi pliku: " + e.getMessage());
     }
   }
 }

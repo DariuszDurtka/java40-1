@@ -23,16 +23,15 @@ public class Student {
 
   public static Student parse(String str) {
     String[] data = str.split(" ");
-    if (data.length != 4) { // Sprawdzamy poprawną liczbę elementów
-      System.out.println(" Błąd parsowania danych: " + str);
+    if (data.length != 4) {
+      System.out.println("Błąd parsowania danych: " + str);
       return new Student("Parse Error", "Parse Error", -1, "Parse Error");
     }
-
     try {
-      int age = Integer.parseInt(data[2]); // Konwersja wieku
+      int age = Integer.parseInt(data[2]);
       return new Student(data[0], data[1], age, data[3]);
     } catch (NumberFormatException e) {
-      System.out.println(" Błąd konwersji wieku dla: " + str);
+      System.out.println("Błąd konwersji wieku dla: " + str);
       return new Student("Parse Error", "Parse Error", -1, "Parse Error");
     }
   }
