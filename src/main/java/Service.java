@@ -5,7 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-public class Service {
+
+public class Service { // Upewniamy się, że całość kodu jest w klasie
 
   public void addStudent(Student student) throws IOException {
     var f = new FileWriter("db.txt", true);
@@ -16,22 +17,16 @@ public class Service {
   }
 
   public Collection<Student> getStudents() throws IOException {
-    var ret = new ArrayList<Student>();
+    var ret = new ArrayList<Student>(); // Określamy typ listy
     var f = new FileReader("db.txt");
     var reader = new BufferedReader(f);
-    String line = "";
-    while (true) {
-      line = reader.readLine();
-      if(line == null)
-        break;
+    String line;
+
+    while ((line = reader.readLine()) != null) {
       ret.add(Student.parse(line));
     }
+
     reader.close();
     return ret;
   }
-
-  public Student findStudentByName(String name) {
-    return null;
-  }
 }
-
