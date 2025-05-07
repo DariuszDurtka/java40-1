@@ -11,20 +11,20 @@ public class Student {
     this.birthDate = birthDate;
   }
 
-  public String getName() { 
-    return name; 
+  public String getName() {
+    return name;
   }
 
-  public String getLastName() { 
-    return lastName; 
+  public String getLastName() {
+    return lastName;
   }
 
-  public int getAge() { 
-    return age; 
+  public int getAge() {
+    return age;
   }
 
-  public String getBirthDate() { 
-    return birthDate; 
+  public String getBirthDate() {
+    return birthDate;
   }
 
   @Override

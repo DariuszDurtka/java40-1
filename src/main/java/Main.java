@@ -15,7 +15,8 @@ class Main {
         System.out.println("2 - Wyświetl wszystkich studentów");
         System.out.println("3 - Znajdź studentów po imieniu");
         System.out.println("4 - Usuń studenta po imieniu i nazwisku");
-        System.out.println("5 - Zakończ program");
+        System.out.println("5 - Zaktualizuj dane studenta (zmiana wieku)");
+        System.out.println("6 - Zakończ program");
         System.out.print("Twój wybór: ");
         int choice;
         try {
@@ -107,6 +108,30 @@ class Main {
             break;
 
           case 5:
+            System.out.print("Podaj imię studenta do aktualizacji: ");
+            String updateName = scanner.nextLine();
+            System.out.print("Podaj nazwisko studenta do aktualizacji: ");
+            String updateLastName = scanner.nextLine();
+            int newAge = 0;
+            boolean validNewAge = false;
+            while (!validNewAge) {
+              System.out.print("Podaj nowy wiek studenta: ");
+              try {
+                newAge = Integer.parseInt(scanner.nextLine());
+                validNewAge = true;
+              } catch (NumberFormatException e) {
+                System.out.println("Wiek musi być liczbą. Spróbuj jeszcze raz.");
+              }
+            }
+            boolean updated = s.updateStudentAge(updateName, updateLastName, newAge);
+            if (updated) {
+              System.out.println("Dane studenta zostały zaktualizowane.");
+            } else {
+              System.out.println("Nie znaleziono studenta o podanych danych.");
+            }
+            break;
+
+          case 6:
             running = false;
             System.out.println("Zamykam program.");
             break;
@@ -117,7 +142,6 @@ class Main {
         }
       }
       scanner.close();
-
     } catch (IOException e) {
       System.out.println("Wystąpił błąd podczas obsługi pliku: " + e.getMessage());
     }

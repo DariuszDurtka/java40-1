@@ -47,16 +47,13 @@ public class Service {
     Collection<Student> newList = new ArrayList<>();
 
     for (Student st : students) {
-      // Porównujemy ignorując wielkość liter
       if (st.getName().equalsIgnoreCase(name) && st.getLastName().equalsIgnoreCase(lastName)) {
         removed = true;
-        // nie dodajemy tego studenta do nowej listy
       } else {
         newList.add(st);
       }
     }
 
-    // Nadpisz plik nową listą studentów
     BufferedWriter bw = new BufferedWriter(new FileWriter("db.txt", false));
     for (Student st : newList) {
       bw.write(st.toString());
@@ -65,5 +62,28 @@ public class Service {
     bw.close();
 
     return removed;
+  }
+
+  // Metoda aktualizująca wiek studenta po imieniu i nazwisku
+  public boolean updateStudentAge(String name, String lastName, int newAge) throws IOException {
+    ArrayList<Student> students = new ArrayList<>(getStudents());
+    boolean updated = false;
+    for (int i = 0; i < students.size(); i++) {
+      Student st = students.get(i);
+      if (st.getName().equalsIgnoreCase(name) && st.getLastName().equalsIgnoreCase(lastName)) {
+        Student updatedStudent = new Student(st.getName(), st.getLastName(), newAge, st.getBirthDate());
+        students.set(i, updatedStudent);
+        updated = true;
+      }
+    }
+    if (updated) {
+      BufferedWriter writer = new BufferedWriter(new FileWriter("db.txt", false));
+      for (Student st : students) {
+        writer.write(st.toString());
+        writer.newLine();
+      }
+      writer.close();
+    }
+    return updated;
   }
 }
